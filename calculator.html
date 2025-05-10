@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Slim Calculator</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+
+        section {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+            max-width: 300px;
+            box-sizing: border-box;
+        }
+
+        .box {
+            width: 100%;
+            height: 50px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            text-align: right;
+            padding: 10px;
+            font-size: 22px;
+            background-color: #eaeaea;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 10px; /* Added margin for better spacing */
+            box-sizing: border-box;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        button {
+            background-color: #f1f1f1;
+            border: none;
+            padding: 15px;
+            font-size: 18px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.2s ease, transform 0.2s ease;
+        }
+
+        button:active {
+            background-color: #d1d1d1;
+            transform: scale(0.98);
+        }
+
+        button:hover {
+            background-color: #ddd;
+        }
+
+        button:nth-child(4n) {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        button:nth-child(4n):hover {
+            background-color: #45a049;
+        }
+
+        .clear-btn {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .clear-btn:hover {
+            background-color: #e33d2e;
+        }
+
+        .backspace-btn {
+            background-color: #ff9800;
+            color: white;
+        }
+
+        .backspace-btn:hover {
+            background-color: #e67e00;
+        }
+
+        @media (max-width: 400px) {
+            section {
+                padding: 15px;
+            }
+
+            button {
+                padding: 12px;
+                font-size: 16px;
+            }
+
+            .box {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <section>
+        <div class="box" id="contentBox">0</div>
+        <div class="buttons">
+            <button class="clear-btn" onclick="clearCalculator()">C</button>
+            <button class="backspace-btn" onclick="backspace()">⌫</button>
+            <button onclick="appendOperator('%')">%</button>
+            <button onclick="appendOperator('/')">/</button>
+
+            <button onclick="appendNumber(7)">7</button>
+            <button onclick="appendNumber(8)">8</button>
+            <button onclick="appendNumber(9)">9</button>
+            <button onclick="appendOperator('*')">*</button>
+
+            <button onclick="appendNumber(4)">4</button>
+            <button onclick="appendNumber(5)">5</button>
+            <button onclick="appendNumber(6)">6</button>
+            <button onclick="appendOperator('-')">-</button>
+
+            <button onclick="appendNumber(1)">1</button>
+            <button onclick="appendNumber(2)">2</button>
+            <button onclick="appendNumber(3)">3</button>
+            <button onclick="appendOperator('+')">+</button>
+
+            <button onclick="appendNumber(0)" style="grid-column: span 2;">0</button>
+            <button onclick="appendOperator('.')">.</button>
+            <button onclick="calculateResult()">=</button>
+        </div>
+    </section>
+
+    <script>
+        let calculator = "";
+
+        function appendNumber(number) {
+            calculator += number;
+            updateDisplay(calculator);
+        }
+
+        function appendOperator(operator) {
+            calculator += operator;
+            updateDisplay(calculator);
+        }
+
+        function updateDisplay(value) {
+            document.getElementById('contentBox').innerText = value;
+        }
+
+        function calculateResult() {
+            try {
+                calculator = eval(calculator);
+                updateDisplay(calculator);
+            } catch (error) {
+                updateDisplay('Error');
+                calculator = "";
+            }
+        }
+
+        function clearCalculator() {
+            calculator = "";
+            updateDisplay(0);
+        }
+
+        function backspace() {
+            calculator = calculator.slice(0, -1);
+            updateDisplay(calculator || 0);
+        }
+    </script>
+</body>
+
+</html>
